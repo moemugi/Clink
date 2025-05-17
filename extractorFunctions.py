@@ -45,7 +45,7 @@ sensitive_words_list = [
     "loginverify", "validate", "paymentupdate", "urgent", "porn", "suspend", "unsubscribe", "authorize",
     "click", "claim", "refund", "alert", "deactivation", "fraud", "recover", "reset", "charge", "webmail",
     "inbox", "lottery", "credit", "card", "debit", "bank", "ssn", "urgentaction", "restricted", "unlock",
-    "warning", "temp", "hold", "accessaccount", "locked", "challenge", "securityupdate", "malware", "virus"
+    "warning", "temp", "hold", "accessaccount", "locked", "challenge", "securityupdate", "malware", "virus", "pornhub"
 ]
 
 def sensitive_word(url):
