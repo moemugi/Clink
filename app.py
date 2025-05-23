@@ -25,23 +25,46 @@ def normalize_key(key):
 
 
 def make_prediction(url):
+def make_prediction(url):
     extracted_features = featureExtraction(url)
     prediction_output = predict_model(model, data=extracted_features)
 
     score = prediction_output['prediction_score'][0]
     label = prediction_output['prediction_label'][0]
 
-    # Convert the features row to a dict
     feature_dict = extracted_features.iloc[0].to_dict()
-
-    # Normalize keys to match your feature_descriptions keys
     normalized_features = {normalize_key(k): v for k, v in feature_dict.items()}
+
+    # Generate dynamic summary based on feature values
+    summary = []
+
+    if normalized_features.get("url_length", 0) > 75:
+        summary.append("The URL is unusually long.")
+    if normalized_features.get("tinyurl", 0) == 1:
+        summary.append("The URL is shortened using a tiny URL service.")
+    if normalized_features.get("prefix_suffix", 0) == 1:
+        summary.append("The domain uses hyphens, which is uncommon in safe domains.")
+    if normalized_features.get("sensitive_words", 0) == 1:
+        summary.append("Sensitive keywords detected in the URL.")
+    if normalized_features.get("domain_age", 9999) < 180:
+        summary.append("The domain is recently registered.")
+    if normalized_features.get("have_symbol", 0) >= 1:
+        summary.append("Special symbols like '@', IPs, or unicode characters were found.")
+    if normalized_features.get("domain_att", 0) > 1.0:
+        summary.append("Suspicious behaviors detected in the website's DOM.")
+
+    if not summary:
+        summary_text = "No major red flags were detected in this URL's structure or metadata."
+    else:
+        summary_text = " ".join(summary)
 
     return {
         'prediction_label': label,
         'prediction_score': score * 100,
-        'features': normalized_features  # pass normalized keys here
+        'features': normalized_features,
+        'summary': summary_text  # include this in the return dict
     }
+
 
 
 @app.route('/', methods=['GET', 'POST'])
