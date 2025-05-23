@@ -25,7 +25,6 @@ def normalize_key(key):
 
 
 def make_prediction(url):
-def make_prediction(url):
     extracted_features = featureExtraction(url)
     prediction_output = predict_model(model, data=extracted_features)
 
