@@ -256,6 +256,19 @@
   {% endfor %}
 </ul>
 
+          <hr />
+<div class="mt-3">
+  <strong>Summary:</strong>
+  <p class="{% if data.prediction_label == 1 %}danger-text{% else %}safe-text{% endif %}">
+    {% if data.prediction_label == 1 %}
+      This link appears to be <strong>unsafe</strong>. Several characteristics resemble those commonly used in phishing attacks, such as suspicious structure, recent or obscure domain registration, or manipulative content.
+    {% else %}
+      This link appears to be <strong>safe</strong>. The detected features align closely with common patterns of legitimate websites, including clear structure and established domain age.
+    {% endif %}
+  </p>
+</div>
+
+
         </div>
         <div class="modal-footer">
           <button
